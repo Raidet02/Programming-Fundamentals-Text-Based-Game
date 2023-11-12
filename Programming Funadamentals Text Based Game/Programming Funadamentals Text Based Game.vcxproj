@@ -129,6 +129,12 @@
   <ItemGroup>
     <ClCompile Include="Programming Funadamentals Text Based Game.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Functions.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Structs.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
