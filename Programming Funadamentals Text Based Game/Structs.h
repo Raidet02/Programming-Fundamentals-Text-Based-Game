@@ -39,5 +39,5 @@ public:
 	stats playerStats;
 	item inventory[5];
 
-	int gold = 0;
+	int gold = 10;
 };

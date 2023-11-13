@@ -73,16 +73,83 @@ void PrintStats(struct Player* player1)
     cout << "- Fortitude " << player1->playerStats.fortitude << endl;
 }
 
-void shop(struct item* healthPotion, struct item* manaPotion, struct Player* player1)
+bool AssignItemToSlot(struct item itemObtained, struct Player* player1)
+{
+    bool fail = true;
+
+    for (int i = 0; i < 5;)
+    {
+        if (player1->inventory[i].itemName == "Empty")
+        {
+            player1->inventory[i] = itemObtained;
+
+            cout << endl << itemObtained.itemName << " was stored in slot " << i + 1<< endl;
+
+            fail = false;
+            i = 5;
+        }
+
+        i++;
+    }
+
+    if (fail == true)
+    {
+        string playerDecision = "";
+        int slot = 0;
+
+        cout << endl << "There is no room left in your inventory, do you wish to drop an item to free up space? yes or no";
+
+        for (int i = 0; i != 1;)
+        {
+            i++;
+
+            cin >> playerDecision;
+
+            if (playerDecision == "yes")
+            {
+                cout << endl << "Which slot do you wish to empty";
+
+                for (int i = 0; i < 5;)
+                {
+                    cout << endl << "Slot " << i << ": " << player1->inventory[i].itemName;
+
+                    i++;
+                }
+
+                cin >> slot;
+
+                player1->inventory[slot] = itemObtained;
+
+                cout << endl << itemObtained.itemName << " was stored in slot " << slot + 1 << endl;
+
+                fail = false;
+            }
+            else if (playerDecision == "no")
+            {
+                cout << endl << "You left the " << itemObtained.itemName << " where it was" << endl;
+            }
+            else
+            {
+                cout << endl << "Please enter a valid response";
+
+                i--;
+            }
+        }
+    }
+
+    return fail;
+}
+
+void shop(struct item healthPotion, struct item manaPotion, struct Player* player1)
 {
     Clear();
 
     cout << endl << "Merchant - Come here and browse my wares." << endl;
 
-    cout << "1. " << healthPotion->itemName << " " << healthPotion->cost << "g" << endl;
-    cout << "2. " << manaPotion->itemName << " " << manaPotion->cost << "g" << endl;
+    cout << endl << "1. " << healthPotion.itemName << " " << healthPotion.cost << "g" << endl;
+    cout << "2. " << manaPotion.itemName << " " << manaPotion.cost << "g" << endl;
 
-    cout << endl << "Type balence to see your current gold amount or type buy then the number of the item you wish to purchase." << endl;
+    cout << endl << "Type balence to see your current gold amount or type buy then the number of the item you wish to purchase and when\nyou are finished type exit to leave." << endl;
 
     for (int i = 0; i != 1;)
     {
@@ -92,38 +159,86 @@ void shop(struct item* healthPotion, struct item* manaPotion, struct Player* pla
         string playerDecision = "";
         int end = 0;
 
+        cout << endl << "> ";
+
         getline(cin, playerDecisionTemp);
         end = playerDecisionTemp.find(" ");
 
         playerDecision = playerDecisionTemp.substr(0, end);
 
-        if (playerDecision == "gold")
+        if (playerDecision == "balence")
         {
-            //show the players gold
+            cout << endl << "You currently have " << player1->gold << " gold." << endl;
+            i--;
         }
         else if (playerDecision == "buy")
         {
             playerDecision = playerDecisionTemp.substr(end, (sizeof(playerDecisionTemp) / 4));
 
-            if (playerDecision == "1")
+            bool purchase = true;
+
+            if (playerDecision == " 1")
             {
-                //set the item to an empty slot
+                if (player1->gold >= healthPotion.cost)
+                {
+                    purchase = AssignItemToSlot(healthPotion, player1);
+
+                    if (purchase != false)
+                    {
+                        player1->gold -= 10;
+                    }
+
+                    i--;
+                }
+                else
+                {
+                    cout << endl << "You do not have enough gold for this.";
+
+                    i--;
+                }
             }
-            else if (playerDecision == "2")
+            else if (playerDecision == " 2")
             {
-                //set the item to an empty slot
+                if (player1->gold >= manaPotion.cost)
+                {
+                    purchase = AssignItemToSlot(healthPotion, player1);
+
+                    if (purchase != false)
+                    {
+                        player1->gold -= 10;
+                    }
+
+                    i--;
+                }
+                else
+                {
+                    cout << endl << "You do not have enough gold for this.";
+
+                    i--;
+                }
             }
+            else
+            {
+                cout << endl << "Please enter a valid command." << endl;
+
+                i--;
+            }
+        }
+        else if (playerDecision == "exit")
+        {
+            cout << endl << "You have left the shop." << endl;
         }
         else
         {
-            cout << "Please enter a valid command" << endl;
-            cout << "Type balence to see your current gold amount or type buy then the name of the item you wish to purchase." << endl;
+            cout << endl << "Please enter a valid command" << endl;
+            cout << "Type balence to see your current gold amount or type buy then the number of the item you wish to purchase." << endl;
+            i--;
         }
 
     }
 }
 
-void Awaken(struct Player* player1, struct item* healthPotion, struct item* manaPotion)
+void Awaken(struct Player* player1, struct item healthPotion, struct item manaPotion)
 {
     string playersDecision = "";
 
@@ -146,6 +261,11 @@ void Awaken(struct Player* player1, struct item* healthPotion, struct item* mana
         else if (playersDecision == "shop")
         {
             shop(healthPotion, manaPotion, player1);
+
+            Clear();
+
+            cout << "You have arrived back at your camp where do you want to go now." << endl;
+
             i--;
         }
         else if (playersDecision == "commands")

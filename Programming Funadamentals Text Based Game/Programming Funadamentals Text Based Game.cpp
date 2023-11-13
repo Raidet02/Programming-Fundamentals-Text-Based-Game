@@ -12,7 +12,7 @@ int main()
     item healthPotion;
     item manaPotion;
 
-    BeginPlay(&player1, &empty, &rustySword, &shodyBow, &basicWand, &healthPotion, &manaPotion);
+    BeginPlay(&player1, &empty, &rustySword, &shodyBow, &basicWand, &manaPotion, &healthPotion);
 
     string classes[3];
     classes[0] = "Swordsman";
@@ -76,6 +76,5 @@ int main()
 
     cin.ignore();
 
-    Awaken(&player1, &healthPotion, &manaPotion);
-
+    Awaken(&player1, healthPotion, manaPotion);
 }
