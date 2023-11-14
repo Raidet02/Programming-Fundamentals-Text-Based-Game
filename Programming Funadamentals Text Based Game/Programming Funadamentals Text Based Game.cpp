@@ -74,7 +74,7 @@ int main()
 
     Clear();
 
-    cin.ignore();
+    CinIgnore();
 
-    Awaken(&player1, healthPotion, manaPotion);
+    Awaken(&player1, healthPotion, manaPotion, empty);
 }

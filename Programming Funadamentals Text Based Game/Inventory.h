@@ -2,9 +2,14 @@
 
 #include "Main.h"
 
-void inventorySystem()
+/*void InventorySystem(struct Player* player1)
 {
-    while (exit == false) //the game loop
+    bool exit = false;
+    string playerCommand = "";
+    string playerCommandTemp = "";
+    int indexValue = 0;
+
+    while (exit == false) //the inventory loop
     {
         cout << endl << "> ";
         getline(cin, playerCommandTemp); //gets the players command
@@ -18,39 +23,23 @@ void inventorySystem()
         if (playerCommand == "show_all") //lists theplayers inventory
         {
             cout << endl << "> inventory:" << endl;
-            for (int i = 0; i < inventorySize; i++)
+
+            for (int i = 0; i <= 5 ;)
             {
-                cout << "- Slot " << i << ": " << inventory[i] << endl;
+                cout << "- Slot " << i << ": " << player1->inventory[i].itemName << endl;
+
+                i++;
             }
         }
         else if (playerCommand == "view") //shows a specific inventory slot
         {
-            indexValueS1 = playerCommandTemp.substr(end, stringSize - end); //gets the index value from the initail command
-            validCheck = 0;
+            playerCommand = playerCommandTemp.substr(end, stringSize - end); //gets the index value from the initail command
+            
+            indexValue = CheckIfValidNumber(playerCommand);
 
-            try //checks if the index value is valid
-            {
-                indexValue1 = stoi(indexValueS1);
-            }
-            catch (...)
-            {
-                cout << endl << "Not a proper index" << endl;
-                validCheck = 1;
-            }
-
-            if (validCheck != 1) //if the index value is valid runs the code
-            {
-                indexValue1 = stoi(indexValueS1);
-
-                if (indexValue1 > inventorySize - 1 || indexValue1 < 0)
-                {
-                    cout << "The index value does not exist" << endl;
-                }
-                else
-                {
-                    cout << endl << "> Inventory Slot " << indexValue1 << " information:" << endl << "Name: " << inventory[indexValue1] << endl;
-                }
-            }
+            indexValue = CheckIfInBoundsOfInventory(indexValue);
+            
+            cout << endl << "> Inventory Slot " << indexValue << " information:" << endl << "Name: " << player1->inventory[indexValue].itemName << endl;
         }
         else if (playerCommand == "exit") //exists the inventory tool
         {
@@ -61,5 +50,5 @@ void inventorySystem()
             cout << endl << "Please enter a valid command" << endl;
         }
     }
-}
+}*/
 

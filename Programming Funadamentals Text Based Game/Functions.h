@@ -2,6 +2,12 @@
 
 #include "Main.h"
 
+void CinIgnore()
+{
+    cin.clear();
+    cin.ignore();
+}
+
 void Clear()
 {
     cout << "\x1B[2J\x1B[H";
@@ -39,6 +45,163 @@ int CheckIfValidNumber(int maxNum)
     return convertedNumber;
 }
 
+int CheckIfValidNumber(string ToBeChecked)
+{
+    int returnValue = 0;
+    bool firstLoop = true;
+
+    for (int i = 0; i != 1;)
+    {
+        i++;
+
+        if (firstLoop == false)
+        {
+            cout << endl << "> ";
+            cin >> ToBeChecked;
+        }
+
+        try
+        {
+            returnValue = stoi(ToBeChecked);
+        }
+        catch (...)
+        {
+            cout << endl << "Please enter a valid number " << endl;
+            i--;
+        }
+
+        firstLoop = false;
+    }
+
+    returnValue = stoi(ToBeChecked);
+
+    return returnValue;
+}
+
+int CheckIfInBoundsOfInventory(int toBeChecked)
+{
+    for (int i = 0; i != 1;)
+    {
+        i++;
+
+        if (toBeChecked > 5 || toBeChecked < 1)
+        {
+            string temp = "";
+
+            cout << endl << "Please enter a numeber between 1 and " << 5 << "." << endl;
+            cout << endl << "> ";
+
+            cin >> temp;
+
+            toBeChecked = CheckIfValidNumber(temp);
+
+            i--;
+
+            CinIgnore();
+        }
+    }
+
+    return toBeChecked;
+}
+
+void InventorySystem(struct Player* player1, struct item empty)
+{
+    bool exit = false;
+    string playerCommand = "";
+    string playerCommandTemp = "";
+    int indexValue = 0;
+
+    cout << endl << "You are inside your inventory type: " << endl << "Show_all - To show the whole inventory" << endl << "view (index) - To show whats in that specific spot" << endl << "exit - To leave your inevtory" << endl;
+
+    while (exit == false) //the inventory loop
+    {
+        cout << endl << "> ";
+        getline(cin, playerCommandTemp); //gets the players command
+
+        int end = playerCommandTemp.find(" "); //seperates the string into the intial command and index values
+        int stringSize = sizeof(playerCommandTemp) / 4;
+
+        playerCommand = playerCommandTemp.substr(0, end);
+
+
+        if (playerCommand == "show_all") //lists theplayers inventory
+        {
+            cout << endl << "> inventory:" << endl;
+
+            for (int i = 0; i < 5;)
+            {
+                cout << "- Slot " << i + 1 << ": " << player1->inventory[i].itemName << endl;
+
+                i++;
+            }
+        }
+        else if (playerCommand == "view") //shows a specific inventory slot
+        {
+            playerCommand = playerCommandTemp.substr(end, stringSize - end); //gets the index value from the initail command
+
+            indexValue = CheckIfValidNumber(playerCommand);
+
+            indexValue = CheckIfInBoundsOfInventory(indexValue);
+
+            cout << endl << "> Inventory Slot " << indexValue << " information:" << endl << "Name: " << player1->inventory[indexValue - 1].itemName << endl;
+        }
+        else if (playerCommand == "destroy")
+        {
+            cout << endl << "Destroyed items cannot be regained, are you sure you want to destroy this item?" << endl;
+
+            for (int i = 0; i != 1;)
+            {
+                i++;
+
+                cout << endl << "> ";
+                cin >> playerCommand;
+
+                if (playerCommand == "yes")
+                {
+                    playerCommand = playerCommandTemp.substr(end, stringSize - end);
+
+                    indexValue = CheckIfValidNumber(playerCommand);
+
+                    indexValue = CheckIfInBoundsOfInventory(indexValue);
+
+                    if (player1->inventory[indexValue - 1].itemName == "Empty")
+                    {
+                        cout << endl << "There was nothing to drop" << endl;
+
+                        CinIgnore();
+                    }
+                    else
+                    {
+                        cout << endl << "You have dropped " << player1->inventory[indexValue - 1].itemName << " on the floor." << endl;
+
+                        player1->inventory[indexValue - 1] = empty;
+
+                        CinIgnore();
+                    }
+                }
+                else if (playerCommand == "no")
+                {
+                    cout << endl << "You have chosen to spare this item." << endl;
+                }
+                else
+                {
+                    cout << endl << "Please enter a valid command" << endl;
+
+                    i--;
+                }
+            }
+        }
+        else if (playerCommand == "exit") //exists the inventory tool
+        {
+            exit = true;
+        }
+        else //if anything other than a correct comand is inputed it will tell the player
+        {
+            cout << endl << "Please enter a valid command" << endl;
+        }
+    }
+}
+
 void BeginPlay(struct Player* player, struct item* empty, struct item* rustySword, struct item* shodyBow, struct item* basicWand , struct item* manaPotion, struct item* healthPotion)
 {
     empty->itemName = "Empty";
@@ -48,6 +211,9 @@ void BeginPlay(struct Player* player, struct item* empty, struct item* rustySwor
 
     manaPotion->itemName = "Mana Potion";
     healthPotion->itemName = "Health Potion";
+    rustySword->itemName = "Rusty Sword";
+    shodyBow->itemName = "Shody Bow";
+    basicWand->itemName = "Basic Wand";
 
     manaPotion->cost = 10;
     healthPotion->cost = 10;
@@ -238,7 +404,7 @@ void shop(struct item healthPotion, struct item manaPotion, struct Player* playe
     }
 }
 
-void Awaken(struct Player* player1, struct item healthPotion, struct item manaPotion)
+void Awaken(struct Player* player1, struct item healthPotion, struct item manaPotion, struct item empty)
 {
     string playersDecision = "";
 
@@ -265,6 +431,14 @@ void Awaken(struct Player* player1, struct item healthPotion, struct item manaPo
             Clear();
 
             cout << "You have arrived back at your camp where do you want to go now." << endl;
+
+            i--;
+        }
+        else if (playersDecision == "inventory")
+        {
+            InventorySystem(player1, empty);
+
+            cout << endl << "You have exited your inventory, where do you wish to go now." << endl;
 
             i--;
         }
