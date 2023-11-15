@@ -3,16 +3,7 @@
 
 int main()
 {
-    Player player1;
-
-    item empty;
-    item rustySword;
-    item shodyBow;
-    item basicWand;
-    item healthPotion;
-    item manaPotion;
-
-    BeginPlay(&player1, &empty, &rustySword, &shodyBow, &basicWand, &manaPotion, &healthPotion);
+    BeginPlay();
 
     string classes[3];
     classes[0] = "Swordsman";
@@ -20,7 +11,7 @@ int main()
     classes[2] = "Wizard";
 
     item items[4];
-    items[0] = empty;
+    items[0] = emptySlot;
     items[1] = rustySword;
     items[2] = shodyBow;
     items[3] = basicWand;
@@ -37,11 +28,11 @@ int main()
     sleep_for(milliseconds(1000));
     cout << "   |_|    |______| /_/  \\_\\    |_|      /_/       \\_\\  |_|       |_|  /_/       \\_\\ \\______|  |_| \\_\\\n";
 
-    sleep_for(milliseconds(3000));
+    sleep_for(milliseconds(3000));*/
 
-    Clear();*/
+    Clear();
 
-    cout << "This is the character selection menu. Please enter a name: ";
+    cout << "This is the character selection menu.\n" << endl << "Please enter a name: ";
     getline(cin, player1.name);
 
     cout << "Next please enter the number of the class you wish to play: " << endl;
@@ -76,5 +67,5 @@ int main()
 
     CinIgnore();
 
-    Awaken(&player1, healthPotion, manaPotion, empty);
+    Awaken(&player1, healthPotion, manaPotion, emptySlot);
 }

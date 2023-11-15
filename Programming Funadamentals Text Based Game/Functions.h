@@ -104,7 +104,7 @@ int CheckIfInBoundsOfInventory(int toBeChecked)
     return toBeChecked;
 }
 
-void InventorySystem(struct Player* player1, struct item empty)
+void InventorySystem()
 {
     bool exit = false;
     string playerCommand = "";
@@ -202,9 +202,9 @@ void InventorySystem(struct Player* player1, struct item empty)
     }
 }
 
-void BeginPlay(struct Player* player, struct item* empty, struct item* rustySword, struct item* shodyBow, struct item* basicWand , struct item* manaPotion, struct item* healthPotion)
+void BeginPlay(struct item* emptySlot, struct item* rustySword, struct item* shodyBow, struct item* basicWand, struct item* manaPotion, struct item* healthPotion, struct item* hornedRat)
 {
-    empty->itemName = "Empty";
+    emptySlot->itemName = "Empty";
     rustySword->damage = 2;
     shodyBow->damage = 2;
     basicWand->damage = 2;
@@ -221,14 +221,21 @@ void BeginPlay(struct Player* player, struct item* empty, struct item* rustySwor
     manaPotion->durability = 1;
     healthPotion->durability = 1;
 
+    /*for (int i = 0; i < 3; i++)
+    {
+        hornedRat(i)->enemyStats.strength = 3;
+        hornedRat(i)->goldDrop = 5;
+        hornedRat(i)->xpDrop = 25;
+    }*/
+
     for (int i = 0; i < 5;)
     {
-        player->inventory[i] = *empty;
+        player1->inventory[i] = empty;
         i++;
     }
 }
 
-void PrintStats(struct Player* player1)
+void PrintStats()
 {
     cout << endl << "Your current stats are: " << endl;
     cout << "- Health " << player1->playerStats.currentHealth << " / " << player1->playerStats.maxHealth << endl;
@@ -239,7 +246,7 @@ void PrintStats(struct Player* player1)
     cout << "- Fortitude " << player1->playerStats.fortitude << endl;
 }
 
-bool AssignItemToSlot(struct item itemObtained, struct Player* player1)
+bool AssignItemToSlot(struct item itemObtained)
 {
     bool fail = true;
 
@@ -306,16 +313,16 @@ bool AssignItemToSlot(struct item itemObtained, struct Player* player1)
     return fail;
 }
 
-void shop(struct item healthPotion, struct item manaPotion, struct Player* player1)
+void shop()
 {
     Clear();
 
-    cout << endl << "Merchant - Come here and browse my wares." << endl;
+    cout << "Merchant - Come here and browse my wares." << endl;
 
     cout << endl << "1. " << healthPotion.itemName << " " << healthPotion.cost << "g" << endl;
     cout << "2. " << manaPotion.itemName << " " << manaPotion.cost << "g" << endl;
 
-    cout << endl << "Type balence to see your current gold amount or type buy then the number of the item you wish to purchase and when\nyou are finished type exit to leave." << endl;
+    cout << endl << "Type:" << endl << "balence - To see how much gold you have." << endl << "buy (index) - to buy that item" << endl << "exit - To leave the shop" << endl;
 
     for (int i = 0; i != 1;)
     {
@@ -347,11 +354,11 @@ void shop(struct item healthPotion, struct item manaPotion, struct Player* playe
             {
                 if (player1->gold >= healthPotion.cost)
                 {
-                    purchase = AssignItemToSlot(healthPotion, player1);
+                    purchase = AssignItemToSlot(healthPotion);
 
-                    if (purchase != false)
+                    if (purchase == false)
                     {
-                        player1->gold -= 10;
+                        player1->gold -= healthPotion.cost;
                     }
 
                     i--;
@@ -367,18 +374,18 @@ void shop(struct item healthPotion, struct item manaPotion, struct Player* playe
             {
                 if (player1->gold >= manaPotion.cost)
                 {
-                    purchase = AssignItemToSlot(healthPotion, player1);
+                    purchase = AssignItemToSlot(healthPotion);
 
-                    if (purchase != false)
+                    if (purchase == false)
                     {
-                        player1->gold -= 10;
+                        player1->gold -= manaPotion.cost;
                     }
 
                     i--;
                 }
                 else
                 {
-                    cout << endl << "You do not have enough gold for this.";
+                    cout << endl << "You do not have enough gold for this." << endl;
 
                     i--;
                 }
@@ -404,7 +411,7 @@ void shop(struct item healthPotion, struct item manaPotion, struct Player* playe
     }
 }
 
-void Awaken(struct Player* player1, struct item healthPotion, struct item manaPotion, struct item empty)
+void Awaken()
 {
     string playersDecision = "";
 
@@ -426,7 +433,7 @@ void Awaken(struct Player* player1, struct item healthPotion, struct item manaPo
         }
         else if (playersDecision == "shop")
         {
-            shop(healthPotion, manaPotion, player1);
+            shop();
 
             Clear();
 
@@ -436,7 +443,7 @@ void Awaken(struct Player* player1, struct item healthPotion, struct item manaPo
         }
         else if (playersDecision == "inventory")
         {
-            InventorySystem(player1, empty);
+            InventorySystem();
 
             cout << endl << "You have exited your inventory, where do you wish to go now." << endl;
 
@@ -444,7 +451,7 @@ void Awaken(struct Player* player1, struct item healthPotion, struct item manaPo
         }
         else if (playersDecision == "commands")
         {
-            cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu." << endl;
+            cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu.\ninventory - This will open the inventory menu." << endl;
             i--;
         }
         else

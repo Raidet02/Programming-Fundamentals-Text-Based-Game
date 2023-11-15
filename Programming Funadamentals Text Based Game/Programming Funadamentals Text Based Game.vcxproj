@@ -130,8 +130,9 @@
     <ClCompile Include="Programming Funadamentals Text Based Game.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Functions.h" />
-    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InstacneGeneration.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Structs.h" />
   </ItemGroup>

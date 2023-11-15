@@ -27,13 +27,30 @@ public:
 	int cost = 0;
 };
 
+struct Enemy
+{
+public:
+	int xpDrop = 0;
+	int goldDrop = 0;
+
+	stats enemyStats;
+};
+
+struct Dungeon
+{
+public:
+	int amountOfEnemies = 0;
+
+	Enemy enemyList[5];
+};
+
 struct Player
 {
 public:
 	string name = "";
 	string characterClass = "";
 
-	int playerLevel = 0;
+	int playerLevel = 1;
 	int xp = 0;
 
 	stats playerStats;
