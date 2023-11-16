@@ -130,7 +130,7 @@ void InventorySystem()
 
             for (int i = 0; i < 5;)
             {
-                cout << "- Slot " << i + 1 << ": " << player1->inventory[i].itemName << endl;
+                cout << "- Slot " << i + 1 << ": " << player1.inventory[i].itemName << endl;
 
                 i++;
             }
@@ -143,7 +143,7 @@ void InventorySystem()
 
             indexValue = CheckIfInBoundsOfInventory(indexValue);
 
-            cout << endl << "> Inventory Slot " << indexValue << " information:" << endl << "Name: " << player1->inventory[indexValue - 1].itemName << endl;
+            cout << endl << "> Inventory Slot " << indexValue << " information:" << endl << "Name: " << player1.inventory[indexValue - 1].itemName << endl;
         }
         else if (playerCommand == "destroy")
         {
@@ -164,7 +164,7 @@ void InventorySystem()
 
                     indexValue = CheckIfInBoundsOfInventory(indexValue);
 
-                    if (player1->inventory[indexValue - 1].itemName == "Empty")
+                    if (player1.inventory[indexValue - 1].itemName == "Empty")
                     {
                         cout << endl << "There was nothing to drop" << endl;
 
@@ -172,9 +172,9 @@ void InventorySystem()
                     }
                     else
                     {
-                        cout << endl << "You have dropped " << player1->inventory[indexValue - 1].itemName << " on the floor." << endl;
+                        cout << endl << "You have dropped " << player1.inventory[indexValue - 1].itemName << " on the floor." << endl;
 
-                        player1->inventory[indexValue - 1] = empty;
+                        player1.inventory[indexValue - 1] = emptySlot;
 
                         CinIgnore();
                     }
@@ -202,35 +202,53 @@ void InventorySystem()
     }
 }
 
-void BeginPlay(struct item* emptySlot, struct item* rustySword, struct item* shodyBow, struct item* basicWand, struct item* manaPotion, struct item* healthPotion, struct item* hornedRat)
+void BeginPlay()
 {
-    emptySlot->itemName = "Empty";
-    rustySword->damage = 2;
-    shodyBow->damage = 2;
-    basicWand->damage = 2;
+    emptySlot.itemName = "Empty";
+    rustySword.damage = 2;
+    shodyBow.damage = 2;
+    basicWand.damage = 2;
 
-    manaPotion->itemName = "Mana Potion";
-    healthPotion->itemName = "Health Potion";
-    rustySword->itemName = "Rusty Sword";
-    shodyBow->itemName = "Shody Bow";
-    basicWand->itemName = "Basic Wand";
+    manaPotion.itemName = "Mana Potion";
+    healthPotion.itemName = "Health Potion";
+    rustySword.itemName = "Rusty Sword";
+    shodyBow.itemName = "Shody Bow";
+    basicWand.itemName = "Basic Wand";
 
-    manaPotion->cost = 10;
-    healthPotion->cost = 10;
+    manaPotion.cost = 10;
+    healthPotion.cost = 10;
 
-    manaPotion->durability = 1;
-    healthPotion->durability = 1;
+    manaPotion.durability = 1;
+    healthPotion.durability = 1;
 
-    /*for (int i = 0; i < 3; i++)
-    {
-        hornedRat(i)->enemyStats.strength = 3;
-        hornedRat(i)->goldDrop = 5;
-        hornedRat(i)->xpDrop = 25;
-    }*/
+    hornedRat1.enemyStats.strength = 3;
+    hornedRat1.goldDrop = 5;
+    hornedRat1.xpDrop = 25;
+    hornedRat1.enemyName = "Horned Rat";
+
+    hornedRat2.enemyStats.strength = 3;
+    hornedRat2.goldDrop = 5;
+    hornedRat2.xpDrop = 25;
+    hornedRat2.enemyName = "Horned Rat";
+
+    hornedRat3.enemyStats.strength = 3;
+    hornedRat3.goldDrop = 5;
+    hornedRat3.xpDrop = 25;
+    hornedRat3.enemyName = "Horned Rat";
+
+    emptyEnemySlot.enemyName = "Empty";
 
     for (int i = 0; i < 5;)
     {
-        player1->inventory[i] = empty;
+        dungeon1.enemyList[i] = emptyEnemySlot;
+
+        i++;
+    }
+
+    
+    for (int i = 0; i < 5;)
+    {
+        player1.inventory[i] = emptySlot;
         i++;
     }
 }
@@ -238,12 +256,12 @@ void BeginPlay(struct item* emptySlot, struct item* rustySword, struct item* sho
 void PrintStats()
 {
     cout << endl << "Your current stats are: " << endl;
-    cout << "- Health " << player1->playerStats.currentHealth << " / " << player1->playerStats.maxHealth << endl;
-    cout << "- Mana " << player1->playerStats.currentMana << " / " << player1->playerStats.maxMana << endl;
-    cout << "- Strength " << player1->playerStats.strength << endl;
-    cout << "- Intelligence " << player1->playerStats.intelligence << endl;
-    cout << "- Charisma " << player1->playerStats.charisma << endl;
-    cout << "- Fortitude " << player1->playerStats.fortitude << endl;
+    cout << "- Health " << player1.playerStats.currentHealth << " / " << player1.playerStats.maxHealth << endl;
+    cout << "- Mana " << player1.playerStats.currentMana << " / " << player1.playerStats.maxMana << endl;
+    cout << "- Strength " << player1.playerStats.strength << endl;
+    cout << "- Intelligence " << player1.playerStats.intelligence << endl;
+    cout << "- Charisma " << player1.playerStats.charisma << endl;
+    cout << "- Fortitude " << player1.playerStats.fortitude << endl;
 }
 
 bool AssignItemToSlot(struct item itemObtained)
@@ -252,9 +270,9 @@ bool AssignItemToSlot(struct item itemObtained)
 
     for (int i = 0; i < 5;)
     {
-        if (player1->inventory[i].itemName == "Empty")
+        if (player1.inventory[i].itemName == "Empty")
         {
-            player1->inventory[i] = itemObtained;
+            player1.inventory[i] = itemObtained;
 
             cout << endl << itemObtained.itemName << " was stored in slot " << i + 1<< endl;
 
@@ -284,14 +302,14 @@ bool AssignItemToSlot(struct item itemObtained)
 
                 for (int i = 0; i < 5;)
                 {
-                    cout << endl << "Slot " << i << ": " << player1->inventory[i].itemName;
+                    cout << endl << "Slot " << i << ": " << player1.inventory[i].itemName;
 
                     i++;
                 }
 
                 cin >> slot;
 
-                player1->inventory[slot] = itemObtained;
+                player1.inventory[slot] = itemObtained;
 
                 cout << endl << itemObtained.itemName << " was stored in slot " << slot + 1 << endl;
 
@@ -341,7 +359,7 @@ void shop()
 
         if (playerDecision == "balence")
         {
-            cout << endl << "You currently have " << player1->gold << " gold." << endl;
+            cout << endl << "You currently have " << player1.gold << " gold." << endl;
             i--;
         }
         else if (playerDecision == "buy")
@@ -352,13 +370,13 @@ void shop()
 
             if (playerDecision == " 1")
             {
-                if (player1->gold >= healthPotion.cost)
+                if (player1.gold >= healthPotion.cost)
                 {
                     purchase = AssignItemToSlot(healthPotion);
 
                     if (purchase == false)
                     {
-                        player1->gold -= healthPotion.cost;
+                        player1.gold -= healthPotion.cost;
                     }
 
                     i--;
@@ -372,13 +390,13 @@ void shop()
             }
             else if (playerDecision == " 2")
             {
-                if (player1->gold >= manaPotion.cost)
+                if (player1.gold >= manaPotion.cost)
                 {
                     purchase = AssignItemToSlot(healthPotion);
 
                     if (purchase == false)
                     {
-                        player1->gold -= manaPotion.cost;
+                        player1.gold -= manaPotion.cost;
                     }
 
                     i--;
@@ -415,10 +433,10 @@ void Awaken()
 {
     string playersDecision = "";
 
-    player1->playerStats.currentHealth = player1->playerStats.maxHealth;
-    player1->playerStats.currentMana = player1->playerStats.maxMana;
+    player1.playerStats.currentHealth = player1.playerStats.maxHealth;
+    player1.playerStats.currentMana = player1.playerStats.maxMana;
 
-    cout << "God - " << player1->name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl;
+    cout << "God - " << player1.name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl;
 
     for (int i = 0; i != 1;)
     {
@@ -429,7 +447,7 @@ void Awaken()
 
         if (playersDecision == "dungeon")
         {
-
+            
         }
         else if (playersDecision == "shop")
         {

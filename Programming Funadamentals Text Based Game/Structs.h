@@ -30,6 +30,8 @@ public:
 struct Enemy
 {
 public:
+	string enemyName = "";
+
 	int xpDrop = 0;
 	int goldDrop = 0;
 
@@ -58,3 +60,21 @@ public:
 
 	int gold = 10;
 };
+
+Player player1;
+
+Enemy emptyEnemySlot;
+
+Enemy hornedRat1;
+Enemy hornedRat2;
+Enemy hornedRat3;
+
+
+Dungeon dungeon1;
+
+item emptySlot;
+item rustySword;
+item shodyBow;
+item basicWand;
+item healthPotion;
+item manaPotion;

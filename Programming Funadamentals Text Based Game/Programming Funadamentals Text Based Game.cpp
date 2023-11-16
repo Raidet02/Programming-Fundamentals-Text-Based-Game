@@ -35,7 +35,7 @@ int main()
     cout << "This is the character selection menu.\n" << endl << "Please enter a name: ";
     getline(cin, player1.name);
 
-    cout << "Next please enter the number of the class you wish to play: " << endl;
+    cout << endl << "Next please enter the number of the class you wish to play: " << endl;
 
     cout << endl << "1. " << classes[0] << endl << "2. " << classes[1] << endl << "3. " << classes[2] << endl;
 
@@ -59,7 +59,7 @@ int main()
         player1.playerStats.intelligence += 3;
     }
 
-    PrintStats(&player1);
+    PrintStats();
 
     sleep_for(milliseconds(3000));
 
@@ -67,5 +67,7 @@ int main()
 
     CinIgnore();
 
-    Awaken(&player1, healthPotion, manaPotion, emptySlot);
+    Awaken();
+
+    DungeonDive();
 }

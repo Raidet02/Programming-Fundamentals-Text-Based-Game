@@ -4,10 +4,9 @@
 #include <thread>
 #include <string>
 #include <random>
+#include "Dungeon.h"
 #include "Functions.h"
 #include "Structs.h"
-#include "InstacneGeneration.h"
-#include "Dungeon.h"
 
 using namespace std;
 using namespace this_thread;
