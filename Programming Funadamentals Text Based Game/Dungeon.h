@@ -168,20 +168,27 @@ void Combat()
 
 				indexValue = CheckIfValidNumber(playerCommand);
 
-				if (player1.characterClass == "Wizard")
+				if (dungeon1.enemyList[indexValue].enemyName != emptyEnemySlot.enemyName)
 				{
-					damageDealt = player1.playerStats.intelligence - dungeon1.enemyList[indexValue - 1].enemyStats.fortitude;
+					if (player1.characterClass == "Wizard")
+					{
+						damageDealt = player1.playerStats.intelligence - dungeon1.enemyList[indexValue - 1].enemyStats.fortitude;
+					}
+					else
+					{
+						damageDealt = player1.playerStats.strength - dungeon1.enemyList[indexValue - 1].enemyStats.fortitude;
+					}
+
+					dungeon1.enemyList[indexValue - 1].enemyStats.currentHealth -= damageDealt;
+
+					cout << endl << "You have dealt " << damageDealt << " damage to " << dungeon1.enemyList[indexValue - 1].enemyName << " " << indexValue << endl;
+
+					sleep_for(milliseconds(2000));
 				}
 				else
 				{
-					damageDealt = player1.playerStats.strength - dungeon1.enemyList[indexValue - 1].enemyStats.fortitude;
+					cout << endl << "Please enter a valid index";
 				}
-
-				dungeon1.enemyList[indexValue - 1].enemyStats.currentHealth -= damageDealt;
-
-				cout << endl << "You have dealt " << damageDealt << " damage to " << dungeon1.enemyList[indexValue - 1].enemyName << " " << indexValue << endl;
-
-				sleep_for(milliseconds(2000));
 			}
 			else if (playerCommand == "inventory")
 			{
