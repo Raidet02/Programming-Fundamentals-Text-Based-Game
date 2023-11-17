@@ -10,7 +10,7 @@ void ListEnemies()
 	{
 		if (dungeon1.enemyList[i].enemyName != emptyEnemySlot.enemyName)
 		{
-			cout << i + 1 << ". " << dungeon1.enemyList[i].enemyName << "Health: " << dungeon1.enemyList[i].enemyStats.currentHealth << " / " << dungeon1.enemyList[i].enemyStats.maxHealth << endl;
+			cout << i + 1 << ". " << dungeon1.enemyList[i].enemyName << dungeon1.enemyList[i].enemyStats.currentHealth << " / " << dungeon1.enemyList[i].enemyStats.maxHealth << "health" << endl;
 		}
 
 		i++;
@@ -34,6 +34,33 @@ void EnemyTurn()
 	}
 }
 
+int CheckIfEnemiesAreDead()
+{
+	int endCombat = 0;
+
+	for (int i = 0; i < 5;)
+	{
+		if (dungeon1.enemyList[i].enemyStats.currentHealth <= 0)
+		{
+			player1.xp += dungeon1.enemyList[i].xpDrop;
+			player1.gold += dungeon1.enemyList[i].goldDrop;
+
+			dungeon1.enemyList[i] = emptyEnemySlot;
+
+			dungeon1.amountOfEnemies--;
+
+			i++;
+		}
+	}
+
+	if (dungeon1.amountOfEnemies <= 0)
+	{
+		endCombat++;
+	}
+
+	return endCombat;
+}
+
 void Combat()
 {
 	string playerCommand = "";
@@ -41,6 +68,7 @@ void Combat()
 	int end = 0;
 	int enemyIndex = 0;
 	int damageDealt = 0;
+	
 
 	cout << endl << "Commands are:" << endl << "attack (index) - To use a basic attack" << endl;
 
@@ -78,11 +106,13 @@ void Combat()
 		else
 		{
 			cout << endl << "please enter a valid command" << endl;
-
-			i--;
 		}
 
 		EnemyTurn();
+
+		Clear();
+
+		i = CheckIfEnemiesAreDead();
 
 		ListEnemies();
 	}
@@ -108,6 +138,8 @@ void FirstFloor()
 			{
 				dungeon1.enemyList[0] = hornedRat1;
 
+				dungeon1.amountOfEnemies = 1;
+
 				ListEnemies();
 
 				Combat();
@@ -116,6 +148,11 @@ void FirstFloor()
 			{
 				dungeon1.enemyList[0] = hornedRat1;
 				dungeon1.enemyList[1] = hornedRat2;
+
+				dungeon1.amountOfEnemies = 2;
+
+				ListEnemies();
+				Combat();
 			}
 		}
 	}
