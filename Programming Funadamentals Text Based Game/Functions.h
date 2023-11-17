@@ -223,18 +223,28 @@ void BeginPlay()
 
     hornedRat1.enemyStats.strength = 3;
     hornedRat1.goldDrop = 5;
-    hornedRat1.xpDrop = 25;
+    hornedRat1.xpDrop = 50;
     hornedRat1.enemyName = "Horned Rat";
 
     hornedRat2.enemyStats.strength = 3;
     hornedRat2.goldDrop = 5;
-    hornedRat2.xpDrop = 25;
+    hornedRat2.xpDrop = 50;
     hornedRat2.enemyName = "Horned Rat";
 
     hornedRat3.enemyStats.strength = 3;
     hornedRat3.goldDrop = 5;
-    hornedRat3.xpDrop = 25;
+    hornedRat3.xpDrop = 50;
     hornedRat3.enemyName = "Horned Rat";
+
+    hornedRat4.enemyStats.strength = 3;
+    hornedRat4.goldDrop = 5;
+    hornedRat4.xpDrop = 50;
+    hornedRat4.enemyName = "Horned Rat";
+
+    hornedRat5.enemyStats.strength = 3;
+    hornedRat5.goldDrop = 5;
+    hornedRat5.xpDrop = 50;
+    hornedRat5.enemyName = "Horned Rat";
 
     emptyEnemySlot.enemyName = "Empty";
 
@@ -429,8 +439,10 @@ void shop()
     }
 }
 
-void Awaken()
+bool Awaken(bool exitGame)
 {
+    Clear();
+
     string playersDecision = "";
 
     player1.playerStats.currentHealth = player1.playerStats.maxHealth;
@@ -467,9 +479,13 @@ void Awaken()
 
             i--;
         }
+        else if (playersDecision == "quit")
+        {
+            exitGame = true;
+        }
         else if (playersDecision == "commands")
         {
-            cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu.\ninventory - This will open the inventory menu." << endl;
+            cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu.\ninventory - This will open the inventory menu.\nquit - This will exit the whole game" << endl;
             i--;
         }
         else
@@ -478,6 +494,8 @@ void Awaken()
             i--;
         }
     }
+
+    return exitGame;
 }
 
 

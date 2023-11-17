@@ -49,6 +49,8 @@ public:
 struct Player
 {
 public:
+	bool playerIsAlive = true;
+
 	string name = "";
 	string characterClass = "";
 
@@ -68,6 +70,9 @@ Enemy emptyEnemySlot;
 Enemy hornedRat1;
 Enemy hornedRat2;
 Enemy hornedRat3;
+Enemy hornedRat4;
+Enemy hornedRat5;
+
 
 
 Dungeon dungeon1;

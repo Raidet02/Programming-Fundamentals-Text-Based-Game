@@ -5,6 +5,8 @@ int main()
 {
     BeginPlay();
 
+    bool exitGame = false;
+
     string classes[3];
     classes[0] = "Swordsman";
     classes[1] = "Archer";
@@ -44,8 +46,8 @@ int main()
     if (player1.characterClass == "Swordsman")
     {
         player1.inventory[0] = items[1];
-        player1.playerStats.strength += 1;
-        player1.playerStats.fortitude += 2;
+        player1.playerStats.strength += 2;
+        player1.playerStats.fortitude += 1;
     }
     else if (player1.characterClass == "Archer")
     {
@@ -63,11 +65,74 @@ int main()
 
     sleep_for(milliseconds(3000));
 
-    Clear();
-
     CinIgnore();
 
-    Awaken();
+    while (exitGame == false)
+    {
+        if (player1.playerIsAlive == false)
+        {
+            player1.playerIsAlive = true;
 
-    DungeonDive();
+            cout << "God - You have been revived, forward unto dawn.";
+
+            sleep_for(milliseconds(1500));
+        }
+
+        player1.playerStats.currentHealth = player1.playerStats.maxHealth;
+        player1.playerStats.currentMana = player1.playerStats.maxMana;
+
+        Clear();
+
+        string playersDecision = "";
+
+        player1.playerStats.currentHealth = player1.playerStats.maxHealth;
+        player1.playerStats.currentMana = player1.playerStats.maxMana;
+
+        cout << "God - " << player1.name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl;
+
+        for (int i = 0; i != 1;)
+        {
+            i++;
+
+            cout << endl << "> ";
+            getline(cin, playersDecision);
+
+            if (playersDecision == "dungeon")
+            {
+                DungeonDive();
+            }
+            else if (playersDecision == "shop")
+            {
+                shop();
+
+                Clear();
+
+                cout << "You have arrived back at your camp where do you want to go now." << endl;
+
+                i--;
+            }
+            else if (playersDecision == "inventory")
+            {
+                InventorySystem();
+
+                cout << endl << "You have exited your inventory, where do you wish to go now." << endl;
+
+                i--;
+            }
+            else if (playersDecision == "quit")
+            {
+                exitGame = true;
+            }
+            else if (playersDecision == "commands")
+            {
+                cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu.\ninventory - This will open the inventory menu.\nquit - This will exit the whole game" << endl;
+                i--;
+            }
+            else
+            {
+                cout << endl << "please enter a valid command \nFor a list of valid commands type commands" << endl;
+                i--;
+            }
+        }
+    }
 }
