@@ -2,18 +2,18 @@
 
 #include "Main.h"
 
-void CinIgnore()
+void CinIgnore() 
 {
     cin.clear();
     cin.ignore();
 }
 
-void Clear()
+void Clear() //clears the console (moves it up so the player can scroll up if they missed somthing)
 {
     cout << "\x1B[2J\x1B[H";
 }
 
-int CheckIfValidNumber(int maxNum)
+int CheckIfValidNumber(int maxNum) //checks for a valid number input and takes an int as a parameter
 {
     int convertedNumber = 0;
     string numberToBeChecked;
@@ -45,7 +45,7 @@ int CheckIfValidNumber(int maxNum)
     return convertedNumber;
 }
 
-int CheckIfValidNumber(string ToBeChecked)
+int CheckIfValidNumber(string ToBeChecked) //checks for a valid number input and takes a atring as a parameter (overloaded)
 {
     int returnValue = 0;
     bool firstLoop = true;
@@ -78,7 +78,7 @@ int CheckIfValidNumber(string ToBeChecked)
     return returnValue;
 }
 
-int CheckIfInBoundsOfInventory(int toBeChecked)
+int CheckIfInBoundsOfInventory(int toBeChecked) //checks if the index is of the inventory size
 {
     for (int i = 0; i != 1;)
     {
@@ -104,14 +104,14 @@ int CheckIfInBoundsOfInventory(int toBeChecked)
     return toBeChecked;
 }
 
-void InventorySystem()
+void InventorySystem() //allows the player to interact with their inventory
 {
     bool exit = false;
     string playerCommand = "";
     string playerCommandTemp = "";
     int indexValue = 0;
 
-    cout << endl << "You are inside your inventory type: " << endl << "Show_all - To show the whole inventory" << endl << "view (index) - To show whats in that specific spot" << endl << "exit - To leave your inevtory" << endl;
+    cout << endl << "You are inside your inventory type: " << endl << "Show_all - To show the whole inventory" << endl << "view (index) - To show whats in that specific spot" << endl << "exit - To leave your inevtory" << endl; //lists inventory commands
 
     while (exit == false) //the inventory loop
     {
@@ -145,9 +145,9 @@ void InventorySystem()
 
             cout << endl << "> Inventory Slot " << indexValue << " information:" << endl << "Name: " << player1.inventory[indexValue - 1].itemName << endl;
         }
-        else if (playerCommand == "destroy")
+        else if (playerCommand == "destroy") //destroys the item of that index
         {
-            cout << endl << "Destroyed items cannot be regained, are you sure you want to destroy this item?" << endl;
+            cout << endl << "Destroyed items cannot be regained, are you sure you want to destroy this item?" << endl; //asks the player if they want to destroy the item
 
             for (int i = 0; i != 1;)
             {
@@ -164,7 +164,7 @@ void InventorySystem()
 
                     indexValue = CheckIfInBoundsOfInventory(indexValue);
 
-                    if (player1.inventory[indexValue - 1].itemName == "Empty")
+                    if (player1.inventory[indexValue - 1].itemName == "Empty") //checks if there is an item to drop if so drops it
                     {
                         cout << endl << "There was nothing to drop" << endl;
 
@@ -202,7 +202,7 @@ void InventorySystem()
     }
 }
 
-void BeginPlay()
+void BeginPlay() //sets the variables of different instances and sets inventory to empty
 {
     emptySlot.itemName = "Empty";
     rustySword.damage = 2;
@@ -263,7 +263,7 @@ void BeginPlay()
     }
 }
 
-void PrintStats()
+void PrintStats() //prints the players stats
 {
     cout << endl << "Your current stats are: " << endl;
     cout << "- Health " << player1.playerStats.currentHealth << " / " << player1.playerStats.maxHealth << endl;
@@ -274,11 +274,11 @@ void PrintStats()
     cout << "- Fortitude " << player1.playerStats.fortitude << endl;
 }
 
-bool AssignItemToSlot(struct item itemObtained)
+bool AssignItemToSlot(struct item itemObtained) //assigns item to a spot in the players inventory 
 {
     bool fail = true;
 
-    for (int i = 0; i < 5;)
+    for (int i = 0; i < 5;) //if the slot is empty assigns the item and doesn't fail
     {
         if (player1.inventory[i].itemName == "Empty")
         {
@@ -298,7 +298,7 @@ bool AssignItemToSlot(struct item itemObtained)
         string playerDecision = "";
         int slot = 0;
 
-        cout << endl << "There is no room left in your inventory, do you wish to drop an item to free up space? yes or no";
+        cout << endl << "There is no room left in your inventory, do you wish to drop an item to free up space? yes or no"; //asks the player if they want to dropm an item
 
         for (int i = 0; i != 1;)
         {
@@ -306,7 +306,7 @@ bool AssignItemToSlot(struct item itemObtained)
 
             cin >> playerDecision;
 
-            if (playerDecision == "yes")
+            if (playerDecision == "yes") //drops an item of the indexed slot
             {
                 cout << endl << "Which slot do you wish to empty";
 
@@ -321,7 +321,7 @@ bool AssignItemToSlot(struct item itemObtained)
 
                 player1.inventory[slot] = itemObtained;
 
-                cout << endl << itemObtained.itemName << " was stored in slot " << slot + 1 << endl;
+                cout << endl << itemObtained.itemName << " was stored in slot " << slot + 1 << endl; //sets the item to the indexed slot
 
                 fail = false;
             }
@@ -329,7 +329,7 @@ bool AssignItemToSlot(struct item itemObtained)
             {
                 cout << endl << "You left the " << itemObtained.itemName << " where it was" << endl;
             }
-            else
+            else //error check
             {
                 cout << endl << "Please enter a valid response";
 
@@ -345,12 +345,12 @@ void shop()
 {
     Clear();
 
-    cout << "Merchant - Come here and browse my wares." << endl;
+    cout << "Merchant - Come here and browse my wares." << endl; //lists the items and their costs
 
     cout << endl << "1. " << healthPotion.itemName << " " << healthPotion.cost << "g" << endl;
     cout << "2. " << manaPotion.itemName << " " << manaPotion.cost << "g" << endl;
 
-    cout << endl << "Type:" << endl << "balence - To see how much gold you have." << endl << "buy (index) - to buy that item" << endl << "exit - To leave the shop" << endl;
+    cout << endl << "Type:" << endl << "balence - To see how much gold you have." << endl << "buy (index) - to buy that item" << endl << "exit - To leave the shop" << endl; //lists the commands
 
     for (int i = 0; i != 1;)
     {
@@ -367,12 +367,12 @@ void shop()
 
         playerDecision = playerDecisionTemp.substr(0, end);
 
-        if (playerDecision == "balence")
+        if (playerDecision == "balence") //shows the players gold amount
         {
             cout << endl << "You currently have " << player1.gold << " gold." << endl;
             i--;
         }
-        else if (playerDecision == "buy")
+        else if (playerDecision == "buy") //buy an item of the index value
         {
             playerDecision = playerDecisionTemp.substr(end, (sizeof(playerDecisionTemp) / 4));
 
@@ -418,37 +418,37 @@ void shop()
                     i--;
                 }
             }
-            else
+            else //error check
             {
                 cout << endl << "Please enter a valid command." << endl;
 
                 i--;
             }
         }
-        else if (playerDecision == "exit")
+        else if (playerDecision == "exit") //exits shop
         {
             cout << endl << "You have left the shop." << endl;
         }
-        else
+        else //error check
         {
             cout << endl << "Please enter a valid command" << endl;
-            cout << "Type balence to see your current gold amount or type buy then the number of the item you wish to purchase." << endl;
+            cout << endl << "Type:" << endl << "balence - To see how much gold you have." << endl << "buy (index) - to buy that item" << endl << "exit - To leave the shop" << endl; //lists the commands
             i--;
         }
 
     }
 }
 
-bool Awaken(bool exitGame)
+bool Awaken(bool exitGame) //the spawn
 {
     Clear();
 
     string playersDecision = "";
 
-    player1.playerStats.currentHealth = player1.playerStats.maxHealth;
+    player1.playerStats.currentHealth = player1.playerStats.maxHealth; //sets Health and Mana to max
     player1.playerStats.currentMana = player1.playerStats.maxMana;
 
-    cout << "God - " << player1.name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl;
+    cout << "God - " << player1.name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl; //asks the player what they wish to do
 
     for (int i = 0; i != 1;)
     {
@@ -457,11 +457,11 @@ bool Awaken(bool exitGame)
         cout << endl << "> ";
         getline(cin, playersDecision);
 
-        if (playersDecision == "dungeon")
+        if (playersDecision == "dungeon") //if dungeon is selected it ends awaken
         {
             
         }
-        else if (playersDecision == "shop")
+        else if (playersDecision == "shop") //runs the shop function
         {
             shop();
 
@@ -471,7 +471,7 @@ bool Awaken(bool exitGame)
 
             i--;
         }
-        else if (playersDecision == "inventory")
+        else if (playersDecision == "inventory") //runs the inventory function
         {
             InventorySystem();
 
@@ -479,16 +479,16 @@ bool Awaken(bool exitGame)
 
             i--;
         }
-        else if (playersDecision == "quit")
+        else if (playersDecision == "quit") //quits the game
         {
             exitGame = true;
         }
-        else if (playersDecision == "commands")
+        else if (playersDecision == "commands") //lists commands
         {
             cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu.\ninventory - This will open the inventory menu.\nquit - This will exit the whole game" << endl;
             i--;
         }
-        else
+        else //error check
         {
             cout << endl << "please enter a valid command \nFor a list of valid commands type commands" << endl;
             i--;
@@ -497,5 +497,3 @@ bool Awaken(bool exitGame)
 
     return exitGame;
 }
-
-

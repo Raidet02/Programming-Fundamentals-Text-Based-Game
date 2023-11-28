@@ -2,7 +2,7 @@
 
 #include "Main.h"
 
-struct stats
+struct stats //all the stats that are needed for enemies and the player
 {
 public:
 	int maxHealth = 5;
@@ -58,7 +58,7 @@ public:
 	int xp = 0;
 
 	stats playerStats;
-	item inventory[5];
+	item inventory[5]; //creates and array of items for the player to use as an inventory
 
 	int gold = 10;
 };

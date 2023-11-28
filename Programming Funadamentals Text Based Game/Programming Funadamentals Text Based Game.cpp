@@ -3,22 +3,22 @@
 
 int main()
 {
-    BeginPlay();
+    BeginPlay(); 
 
-    bool exitGame = false;
+    bool exitGame = false; //bool that controls the basic game loop
 
-    string classes[3];
+    string classes[3]; //an array for the three basic classes
     classes[0] = "Swordsman";
     classes[1] = "Archer";
     classes[2] = "Wizard";
 
-    item items[4];
+    item items[4]; //an array of struct item for the items in the game
     items[0] = emptySlot;
     items[1] = rustySword;
     items[2] = shodyBow;
     items[3] = basicWand;
 
-    /*cout << " _______   ______   _    _   _______         ___     _______   _______     ___       ______    _   _\n";           //outputs the ASCII art to the console
+    cout << " _______   ______   _    _   _______         ___     _______   _______     ___       ______    _   _\n";           //outputs the ASCII art to the console periodically 
     sleep_for(milliseconds(1000));
     cout << "|__   __| |  ____| \\ \\  / / |__   __|       / _ \\   |__   __| |__   __|   / _ \\     /  ____|  | | / /\n";
     sleep_for(milliseconds(1000));
@@ -30,20 +30,20 @@ int main()
     sleep_for(milliseconds(1000));
     cout << "   |_|    |______| /_/  \\_\\    |_|      /_/       \\_\\  |_|       |_|  /_/       \\_\\ \\______|  |_| \\_\\\n";
 
-    sleep_for(milliseconds(3000));*/
+    sleep_for(milliseconds(3000));
 
     Clear();
 
-    cout << "This is the character selection menu.\n" << endl << "Please enter a name: ";
+    cout << "This is the character selection menu.\n" << endl << "Please enter a name: "; //asks the player for their name and sets it to the player1 struct
     getline(cin, player1.name);
 
-    cout << endl << "Next please enter the number of the class you wish to play: " << endl;
+    cout << endl << "Next please enter the number of the class you wish to play: " << endl; //asks the player for the class they wish to play
 
-    cout << endl << "1. " << classes[0] << endl << "2. " << classes[1] << endl << "3. " << classes[2] << endl;
+    cout << endl << "1. " << classes[0] << endl << "2. " << classes[1] << endl << "3. " << classes[2] << endl; //lists the classes
 
     player1.characterClass = classes[CheckIfValidNumber(3) - 1];
 
-    if (player1.characterClass == "Swordsman")
+    if (player1.characterClass == "Swordsman") //adds the stats and items for the class that was chosen
     {
         player1.inventory[0] = items[1];
         player1.playerStats.strength += 2;
@@ -67,9 +67,9 @@ int main()
 
     CinIgnore();
 
-    while (exitGame == false)
+    while (exitGame == false) //starts the game loop
     {
-        if (player1.playerIsAlive == false)
+        if (player1.playerIsAlive == false) //checks if the player is dead and if so revives them 
         {
             player1.playerIsAlive = true;
 
@@ -78,7 +78,7 @@ int main()
             sleep_for(milliseconds(1500));
         }
 
-        player1.playerStats.currentHealth = player1.playerStats.maxHealth;
+        player1.playerStats.currentHealth = player1.playerStats.maxHealth; //resets health and mana
         player1.playerStats.currentMana = player1.playerStats.maxMana;
 
         Clear();
@@ -88,7 +88,7 @@ int main()
         player1.playerStats.currentHealth = player1.playerStats.maxHealth;
         player1.playerStats.currentMana = player1.playerStats.maxMana;
 
-        cout << "God - " << player1.name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl;
+        cout << "God - " << player1.name << " awakens inside their tent.\nYou walk outside and the sun is shinig.\nWhat do you wish to do?" << endl; //asks the player what they want to do
 
         for (int i = 0; i != 1;)
         {
@@ -97,11 +97,11 @@ int main()
             cout << endl << "> ";
             getline(cin, playersDecision);
 
-            if (playersDecision == "dungeon")
+            if (playersDecision == "dungeon") //starts the dungeon crawl
             {
                 DungeonDive();
             }
-            else if (playersDecision == "shop")
+            else if (playersDecision == "shop") //opens the shop
             {
                 shop();
 
@@ -111,7 +111,7 @@ int main()
 
                 i--;
             }
-            else if (playersDecision == "inventory")
+            else if (playersDecision == "inventory") //opens the inventory
             {
                 InventorySystem();
 
@@ -119,16 +119,16 @@ int main()
 
                 i--;
             }
-            else if (playersDecision == "quit")
+            else if (playersDecision == "quit") //exits the game
             {
                 exitGame = true;
             }
-            else if (playersDecision == "commands")
+            else if (playersDecision == "commands") //lists the commands
             {
                 cout << endl << "dungeon - This will start a dungeon crawl.\nshop - This will open the shop menu.\ninventory - This will open the inventory menu.\nquit - This will exit the whole game" << endl;
                 i--;
             }
-            else
+            else //asks for a valid command to be input
             {
                 cout << endl << "please enter a valid command \nFor a list of valid commands type commands" << endl;
                 i--;
