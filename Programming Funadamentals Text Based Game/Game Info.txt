@@ -1,0 +1,32 @@
+Warning
+If cout and or sleep_for have errors underlined that is a visula studio problem that doesn't affect the code. If you run the code it should work as intended if not restart
+visual studio.
+
+Controls
+All the commands and controls are outlined when you play. If you don't know what the commands are, type commands and in most cases they will apear if not the commands where
+posted before the input and just scroll up in that instance.
+
+Common commands
+for index don't use the brackets.
+
+spawn:
+dungeon
+shop
+inventory
+exit
+
+shop:
+buy (index)
+balence
+exit
+
+inventory:
+show_all
+view
+destroy (index)
+exit
+
+combat:
+attack (index)
+inventory
+use (index)
