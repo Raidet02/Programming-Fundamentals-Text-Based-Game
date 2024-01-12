@@ -168,7 +168,7 @@ void Combat() //the main comabat function
 
 				indexValue = CheckIfValidNumber(playerCommand);
 
-				if (dungeon1.enemyList[indexValue].enemyName != emptyEnemySlot.enemyName) //checks that the player isn't trying to attack an empty space
+				if (dungeon1.enemyList[indexValue - 1].enemyName != emptyEnemySlot.enemyName) //checks that the player isn't trying to attack an empty space
 				{
 					if (player1.characterClass == "Wizard") //if playing wizard attacls based on intelligence not strength
 					{
